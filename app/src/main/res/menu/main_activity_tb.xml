@@ -6,7 +6,5 @@
         android:id="@+id/opCamera"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="Tirar Foto"
-        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
-        app:showAsAction="ifRoom"
-        tools:icon="@android:drawable/ic_menu_camera" />
+        app:showAsAction="ifRoom" />
 </menu>
