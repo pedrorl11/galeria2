@@ -27,7 +27,7 @@
         </activity>
         
         <provider
-            android:authorities="trindade.daniel.galeria.fileprovider"
+            android:authorities="soares.pedro.galeria2.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

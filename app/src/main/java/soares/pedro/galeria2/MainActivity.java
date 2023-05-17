@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
         private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp;
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         File f = File.createTempFile(imageFileName, ".jpg", storageDir);
         return f;
         }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -20,15 +22,7 @@ import java.io.File;
     public class PhotoActivity extends AppCompatActivity {
     String photoPath;
 
-        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.opShare:
-                    sharePhoto();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }
+
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -44,6 +38,24 @@ import java.io.File;
             ImageView imPhoto = findViewById(R.id.imPhoto);
             imPhoto.setImageBitmap(bitmap);
         }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            super.onCreateOptionsMenu(menu);
+            MenuInflater inflater = getMenuInflater(); // Criando um inflador de menu
+            inflater.inflate(R.menu.photo_activity_tb, menu); // Inflando o menu a partir do arquivo XML
+            return true;
+        }
+
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.opShare:
+                    sharePhoto();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+
         void sharePhoto() {
             Uri photoUri = FileProvider.getUriForFile(this,"soares.pedro.galeria2.fileprovider", new File(photoPath));
             Intent i = new Intent(Intent.ACTION_SEND);
