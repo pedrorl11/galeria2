@@ -31,9 +31,9 @@ package soares.pedro.galeria2;
 
 public class MainActivity extends AppCompatActivity {
 
-    static int RESULT_TAKE_PICTURE = 1; // Constante para identificar o resultado da captura de foto
+    static int RESULT_TAKE_PICTURE = 1;
 
-    static int RESULT_REQUEST_PERMISSION = 2; // Constante para identificar a solicitação de permissões
+    static int RESULT_REQUEST_PERMISSION = 2;
 
     String currentPhotoPath; // Caminho da foto atual
 
@@ -52,40 +52,40 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true); // Habilita o botão de voltar na ActionBar
 
-        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Diretório das imagens armazenadas
-        File[] files = dir.listFiles(); // Lista dos arquivos no diretório
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Imagens armazenadas
+        File[] files = dir.listFiles(); // Lista dos arquivos
         for (int i = 0; i < files.length; i++) {
-            photos.add(files[i].getAbsolutePath()); // Adiciona os caminhos das fotos à lista
+            photos.add(files[i].getAbsolutePath()); // Adiciona os caminhos da fotos
         }
-        mainAdapter = new MainAdapter(MainActivity.this, photos); // Cria o adaptador principal com a lista de fotos
+        mainAdapter = new MainAdapter(MainActivity.this, photos);
 
-        RecyclerView rvGallery = findViewById(R.id.rvGallery); // Obtém a RecyclerView do layout
-        rvGallery.setAdapter(mainAdapter); // Define o adaptador para a RecyclerView
+        RecyclerView rvGallery = findViewById(R.id.rvGallery); // pega a RecyclerView do layout
+        rvGallery.setAdapter(mainAdapter);
 
-        float w = getResources().getDimension(R.dimen.itemWidth); // Largura dos itens da RecyclerView
-        int numberOfColumns = Util.calculateNoOfColumns(MainActivity.this, w); // Calcula o número de colunas com base na largura dos itens
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, numberOfColumns); // Cria o layout de grade com o número de colunas
+        float w = getResources().getDimension(R.dimen.itemWidth); // Largura dos itens
+        int numberOfColumns = Util.calculateNoOfColumns(MainActivity.this, w); // Número de colunas com base na largura dos itens
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, numberOfColumns); // Cria o layout
         rvGallery.setLayoutManager(gridLayoutManager); // Define o layout da RecyclerView
 
-        List<String> permissions = new ArrayList<>(); // Lista de permissões necessárias
+        List<String> permissions = new ArrayList<>(); // Lista de permissões
         permissions.add(Manifest.permission.CAMERA); // Adiciona a permissão de acesso à câmera
 
-        checkForPermissions(permissions); // Verifica as permissões necessárias
+        checkForPermissions(permissions); // Verifica as permissões
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater(); // Cria o inflater de menu
-        inflater.inflate(R.menu.main_activity_tb, menu); // Infla o menu na ActionBar
+        MenuInflater inflater = getMenuInflater(); // Cria o inflater
+        inflater.inflate(R.menu.main_activity_tb, menu); // Infla o menu
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) { // Verifica qual item da Toolbar foi selecionado
+        switch (item.getItemId()) { // Verifica qual item foi selecionado
             case R.id.opCamera:
-                dispatchTakePictureIntent(); // Se o ícone da câmera foi selecionado, inicia a captura de foto
+                dispatchTakePictureIntent(); // Inicia a captura de foto
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -107,22 +107,22 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        currentPhotoPath = f.getAbsolutePath(); // Obtém o caminho do arquivo de imagem atual
+        currentPhotoPath = f.getAbsolutePath(); // Obtém o caminho da imagem
 
         if (f != null) {
             Uri fUri = FileProvider.getUriForFile(MainActivity.this, "soares.pedro.galeria2.fileprovider", f); // Obtém a URI do arquivo de imagem
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            i.putExtra(MediaStore.EXTRA_OUTPUT, fUri); // Define a URI do arquivo como saída da captura de foto
-            startActivityForResult(i, RESULT_TAKE_PICTURE); // Inicia a atividade de captura de foto com o código de resultado
+            i.putExtra(MediaStore.EXTRA_OUTPUT, fUri);
+            startActivityForResult(i, RESULT_TAKE_PICTURE); // Inicia a captura de foto
         }
     }
 
     private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); //define como nome o momento que a foto foi tirada
+        String imageFileName = "JPEG_" + timeStamp; // acrescenta JPEG_ antes do timestamp
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File f = File.createTempFile(imageFileName, ".jpg", storageDir);
-        return f; // Cria um arquivo de imagem com um nome único
+        return f; // Cria um arquivo de imagem jpg com o nome definido
     }
 
     @Override
@@ -131,11 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == RESULT_TAKE_PICTURE) {
             if (resultCode == Activity.RESULT_OK) {
-                photos.add(currentPhotoPath); // Adiciona o caminho da foto capturada à lista de fotos
-                mainAdapter.notifyItemInserted(photos.size() - 1); // Notifica o adaptador sobre a inserção de um novo item
+                photos.add(currentPhotoPath); // Adiciona a foto capturada à lista de fotos
+                mainAdapter.notifyItemInserted(photos.size() - 1); // Notifica a adição de um novo item
             } else {
                 File f = new File(currentPhotoPath);
-                f.delete(); // Se a captura de foto não foi bem-sucedida, exclui o arquivo de imagem criado
+                f.delete(); // Exclui o arquivo de imagem criado
             }
         }
     }
@@ -177,9 +177,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == RESULT_REQUEST_PERMISSION) {
             if (permissionsNotGranted.isEmpty()) {
-                // Todas as permissões foram concedidas
+                // Permissões concedidas
             } else {
-                // Algumas permissões foram negadas, você pode lidar com isso de acordo com sua lógica
+                // Permissões negadas
             }
         }
     }
